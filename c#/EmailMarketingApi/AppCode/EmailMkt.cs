@@ -1,18 +1,36 @@
-﻿using System;
+﻿/*
+ *  Copyright (c) 2009, Locaweb LTDA.
+ * 	Todos os direitor reservados.
+ *
+ *  Está é uma API exemplo que facilita a utilização dos web services do Email Marketing.
+ *
+ * versao 1.0
+ * mais detalhes em http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
+ */
+using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Locaweb.Net;
 using System.Net;
 
 namespace Locaweb.EmailMarketingApi
-{
+{    
     public class EmailMkt
     {
+        /// <summary>
+        /// Nome do servidor
+        /// </summary>
         private string hostname;
+        /// <summary>
+        /// Login usado no Email Marketing
+        /// </summary>
         private string login;
+        /// <summary>
+        /// Chave gerada para uso dessa API
+        /// </summary>
         private string chaveApi;
-        //private string hostnameSufix = "locaweb.com.br";
-        private const string HOSTNAME_SUFIX = "tecnologia.ws";
+
+        private const string HOSTNAME_SUFIX = "locaweb.com.br";        
 
         public EmailMkt(string hostname, string login, string chaveApi)
         {
@@ -23,11 +41,20 @@ namespace Locaweb.EmailMarketingApi
 
         #region metodos publicos
 
+        #region metodos de listagem de contatos
+
+        /*
+         * Os métodos de listagem possuem o parâmetro pagina. Ele informa qual página da pesquisa deve ser retornada.
+         * Atualmente o limite de contatos por página é de 25mil contatos por página.
+         * Por isso, caso tenha 40mil contatos em sua base por exemplo, precisará fazer 2 chamadas passando 
+         * o parâmetro pagina=1 (que devolverá os contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de 25000 a 40000) 
+         */
+
         public List<Contato> retornaContatosValidos(int pagina)
         {
             return this.retornaContatosPorStatus(pagina, "validos");
         }
-
+                
         public List<Contato> retornaContatosInvalidos(int pagina)
         {
             return this.retornaContatosPorStatus(pagina, "invalidos");
@@ -42,6 +69,7 @@ namespace Locaweb.EmailMarketingApi
         {
             return this.retornaContatosPorStatus(pagina, "descadastrados");
         }
+        #endregion
 
         #endregion
 

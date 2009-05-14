@@ -28,7 +28,7 @@ class EmailMkt {
 	private $chaveApi;
 
 	/**
-	 * @param string hostName Login usado no Email Marketing.
+	 * @param string hostName usado no Email Marketing.
 	 * @param string Login usado no Email Marketing.
 	 * @param string Chave gerada para uso dessa API.
 	 */
@@ -38,46 +38,32 @@ class EmailMkt {
 		$this->chaveApi = $chaveApi;
 	}
 
-	/**
-	 * Retorna Contatos validos
-	 * @param int pagina pagina a ser retornada
-	 */
+/************************** Inicio metodos de Listagem de Contatos **************************************************
+ * Os métodos de listagem possuem o parâmetro pagina. Ele informa qual página da pesquisa deve ser retornada.
+ * Atualmente o limite de contatos por página é de 25mil contatos por página.
+ * Por isso, caso tenha 40mil contatos em sua base por exemplo, precisará fazer 2 chamadas passando
+ * o parâmetro pagina=1 (que devolverá os contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de 25000 a 40000)
+ *
+ */
+
 	public function retornaContatosValidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'validos');
 	}
 
-	/**
-	 * Retorna Contatos invalidos
-	 * @param int pagina pagina a ser retornada
-	 */
 	public function retornaContatosInvalidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'invalidos');
 	}
 
-	/**
-	 * Retorna Contatos invalidos
-	 * @param int pagina pagina a ser retornada
-	 */
 	public function retornaContatosNaoConfirmados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'nao_confirmados');
 	}
 
-	/**
-	 * Retorna Contatos descadastrados
-	 * @param int pagina pagina a ser retornada
-	 */
 	public function retornaContatosDescadastrados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'descadastrados');
 	}
 
-	/**
-	 * Retorna todos os contatos. Se o número de contatos for
-	 * superior a xxxx contatos, os contatos são quebrados em páginas
-	 * de 25mil elementos.
-	 *
-	 * @param string pagina Número da página
-	 * @return array Contatos ou null se não tiver contatos.
-	 */
+
+
 	private function retornaContatosPorStatus($pagina='1', $status) {
 
 		$url = "http://{$this->hostName}.{$this->HOSTNAME_SUFIX}/admin" .
@@ -91,6 +77,8 @@ class EmailMkt {
 
 		return $resultado;
 	}
+
+/************************** Fim do metodos de Listagem de Contatos **************************************************/
 
 	private function enviaRequisicao($url) {
 		$curl = curl_init();

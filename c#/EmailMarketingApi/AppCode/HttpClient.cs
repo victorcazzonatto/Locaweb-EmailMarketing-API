@@ -1,3 +1,12 @@
+/*
+ *  Copyright (c) 2009, Locaweb LTDA.
+ * 	Todos os direitor reservados.
+ *
+ *  Está é uma API exemplo que facilita a utilização dos web services do Email Marketing.
+ *
+ * versao 1.0
+ * mais detalhes em http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
+ */
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -25,9 +34,6 @@ namespace Locaweb.Net
             sr.Close();
 
             return sResp;
-
-
-
         }
 
     }

@@ -13,9 +13,9 @@
 	require_once dirname(__FILE__).'/EmailMkt.php';
 
 	// Esses valores podem ser obtidos na página de configurações do Email Marketing
-	$hostName = 'testelmm';
-	$login 		= 'gustavo';
-	$chaveApi = 'e538ea19267cfdb98f423209419ff77c';
+	$hostName = '';
+	$login 		= '';
+	$chaveApi = '';
 	$emkt 		= new EmailMkt($hostName, $login, $chaveApi);
 
 	print "\ncontatos validos\n";
