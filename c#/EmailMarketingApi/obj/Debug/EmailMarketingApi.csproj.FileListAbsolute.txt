@@ -1,5 +1,0 @@
-C:\Documents and Settings\fabio.perrella\My Documents\workspace\EmailmktDesenv\ApiClients\c#\EmailMarketingApi\obj\Debug\EmailMarketingApi.exe
-C:\Documents and Settings\fabio.perrella\My Documents\workspace\EmailmktDesenv\ApiClients\c#\EmailMarketingApi\obj\Debug\EmailMarketingApi.pdb
-C:\Documents and Settings\fabio.perrella\My Documents\workspace\EmailmktDesenv\ApiClients\c#\EmailMarketingApi\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\fabio.perrella\My Documents\workspace\EmailmktDesenv\ApiClients\c#\EmailMarketingApi\bin\Debug\EmailMarketingApi.exe
-C:\Documents and Settings\fabio.perrella\My Documents\workspace\EmailmktDesenv\ApiClients\c#\EmailMarketingApi\bin\Debug\EmailMarketingApi.pdb
