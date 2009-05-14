@@ -6,20 +6,20 @@
  *  Está é uma API exemplo que facilita a utilização dos web services do Email Marketing.
  *
  * @version 1.0
- * @see wiki
+ * @see http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
  */
 class EmailMkt {
 
-	private $HOSTNAME_SUFIX='tecnologia.ws';
+	private $HOSTNAME_SUFIX='locaweb.com.br';
 
 	/**
 	 * Nome do servidor.
 	 */
-    private $hostName;
+  private $hostName;
 
-    /**
-     * Login usado no Email Marketing.
-     */
+	/**
+	 * Login usado no Email Marketing.
+	 */
 	private $login;
 
 	/**
@@ -38,18 +38,34 @@ class EmailMkt {
 		$this->chaveApi = $chaveApi;
 	}
 
+	/**
+	 * Retorna Contatos validos
+	 * @param int pagina pagina a ser retornada
+	 */
 	public function retornaContatosValidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'validos');
 	}
 
+	/**
+	 * Retorna Contatos invalidos
+	 * @param int pagina pagina a ser retornada
+	 */
 	public function retornaContatosInvalidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'invalidos');
 	}
 
+	/**
+	 * Retorna Contatos invalidos
+	 * @param int pagina pagina a ser retornada
+	 */
 	public function retornaContatosNaoConfirmados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'nao_confirmados');
 	}
 
+	/**
+	 * Retorna Contatos descadastrados
+	 * @param int pagina pagina a ser retornada
+	 */
 	public function retornaContatosDescadastrados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'descadastrados');
 	}
@@ -57,7 +73,7 @@ class EmailMkt {
 	/**
 	 * Retorna todos os contatos. Se o número de contatos for
 	 * superior a xxxx contatos, os contatos são quebrados em páginas
-	 * de xxxx elementos.
+	 * de 25mil elementos.
 	 *
 	 * @param string pagina Número da página
 	 * @return array Contatos ou null se não tiver contatos.
