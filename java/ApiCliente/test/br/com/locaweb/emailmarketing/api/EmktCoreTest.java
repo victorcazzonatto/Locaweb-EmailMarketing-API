@@ -3,21 +3,15 @@ package br.com.locaweb.emailmarketing.api;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.Before;
 import org.junit.Test;
-
-import br.com.locaweb.emailmarketing.api.contatos.Contatos;
-import br.com.locaweb.emailmarketing.api.contatos.RepositorioContatos;
 
 
 public class EmktCoreTest {

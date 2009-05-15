@@ -11,6 +11,22 @@ import org.json.simple.JSONValue;
 import br.com.locaweb.emailmarketing.api.EmktApiException;
 import br.com.locaweb.emailmarketing.api.EmktCore;
 
+/**
+ * Copyright (c) 2009, Locaweb LTDA. Todos os direitor reservados.
+ *
+ * Está é uma API exemplo que facilita a utilização do web services de Contatos.
+ *
+ * Os métodos de listagem possuem o parâmetro página. Ele informa qual página da
+ * pesquisa deve ser retornada. Atualmente o limite de contatos por página é de
+ * 25mil contatos por página. Exemplo, caso tenha 40mil contatos em sua base
+ * precisará fazer 2 chamadas passando o parâmetro pagina=1 (que devolverá os
+ * contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de
+ * 25000 a 40000)
+ *
+ *
+ * @version 0.1
+ * @see http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
+ */
 public class RepositorioContatos {
 
 	private String hostName;
@@ -25,33 +41,90 @@ public class RepositorioContatos {
 		this(hostName, login, chave, new EmktCore());
 	}
 
-	protected RepositorioContatos(String hostName, String login, String chave, EmktCore emktCore) {
+	protected RepositorioContatos(String hostName, String login, String chave,
+			EmktCore emktCore) {
 		this.hostName = hostName;
 		this.login = login;
 		this.chave = chave;
 		this.emktCore = emktCore;
 	}
 
-	public List<Contatos> pegaContatosValidos(int pagina) throws EmktApiException {
+	/**
+	 * Retorna todos os contatos válidos.
+	 *
+	 * @param pagina
+	 *            Número da página, as listas de contatos são fornecidas
+	 *            paginada.
+	 *
+	 * @return List<Contatos>
+	 *
+	 * @throws EmktApiException
+	 */
+	public List<Contatos> pegaContatosValidos(int pagina)
+			throws EmktApiException {
 
 		return pegaContatos(pagina, "validos");
 	}
 
-	protected List<Contatos> pegaContatos(int pagina, String status) throws EmktApiException {
+	/**
+	 * Retorna todos os contatos inválidos.
+	 *
+	 * @param pagina
+	 *            Número da página, as listas de contatos são fornecidas
+	 *            paginada.
+	 *
+	 * @return List<Contatos>
+	 *
+	 * @throws EmktApiException
+	 */
+	public List<Contatos> pegaContatosInvalidos(int pagina)
+			throws EmktApiException {
+
+		return pegaContatos(pagina, "invalidos");
+	}
+
+	/**
+	 * Retorna todos os contatos descadastrados.
+	 *
+	 * @param pagina
+	 *            Número da página, as listas de contatos são fornecidas
+	 *            paginada.
+	 *
+	 * @return List<Contatos>
+	 *
+	 * @throws EmktApiException
+	 */
+	public List<Contatos> pegaContatosDescadastrados(int pagina)
+			throws EmktApiException {
+
+		return pegaContatos(pagina, "Descadastrados");
+	}
+
+	/**
+	 * Retorna todos os contatos descadastrados.
+	 *
+	 * @param pagina
+	 *            Número da página, as listas de contatos são fornecidas
+	 *            paginada.
+	 *
+	 * @return List<Contatos>
+	 *
+	 * @throws EmktApiException
+	 */
+	public List<Contatos> pegaContatosNaoConfirmados(int pagina)
+			throws EmktApiException {
+
+		return pegaContatos(pagina, "nao_confirmados");
+	}
+
+	protected List<Contatos> pegaContatos(int pagina, String status)
+			throws EmktApiException {
 		if (pagina <= 0) {
 			pagina = 1;
 		}
-
-
-//		 String url = "http://" + this.hostName + ".locaweb.com.br/admin/api/"
-//		 + this.login +	 "/contatos/" + status + "?chave_api=" + this.chave + "&pagina=" + pagina;
-
-		String url = "http://testelmm.tecnologia.ws/admin/api/" + this.login
-				+ "/contatos/" + status + "?chave=" + this.chave
-				+ "&pagina=" + String.valueOf(pagina);
-
-
-
+		String url = "http://" + this.hostName + ".locaweb.com.br/admin/api/"
+				+ this.login + "/contatos/" + status + "?chave_api="
+				+ this.chave + "&pagina=" + pagina;
 		String resultado = emktCore.enviaRequisicao(url);
 
 		return parseJson(resultado);
@@ -59,7 +132,7 @@ public class RepositorioContatos {
 
 	private List<Contatos> parseJson(String dados) {
 		List<Contatos> contatos = new LinkedList<Contatos>();
-		if(dados== "") {
+		if (dados == "") {
 			return contatos;
 		}
 		JSONArray array = (JSONArray) JSONValue.parse(dados);

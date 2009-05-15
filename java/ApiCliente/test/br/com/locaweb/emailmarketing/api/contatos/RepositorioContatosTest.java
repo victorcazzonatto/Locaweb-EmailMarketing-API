@@ -39,19 +39,23 @@ public class RepositorioContatosTest {
 	}
 
 	@Test
-	public void retornaContatosValidosDeveRetornarUmContatoValido() throws Exception {
+	public void retornaContatosValidosDeveRetornarUmContatoValido()
+			throws Exception {
 		String respostaMock = "[{\"email\":\"xconta4@testecarganl.tecnologia.ws\",\"nome\":\"nomeTeste\"}]";
-		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn(respostaMock);
+		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn(
+				respostaMock);
 		replay(emktCoreMock);
-		List<Contatos> contatos =rc.pegaContatos(1, "validos");
+		List<Contatos> contatos = rc.pegaContatos(1, "validos");
 		assertEquals(1, contatos.size());
-		assertEquals("xconta4@testecarganl.tecnologia.ws", contatos.get(0).pegaEmail());
+		assertEquals("xconta4@testecarganl.tecnologia.ws", contatos.get(0)
+				.pegaEmail());
 		assertEquals("nomeTeste", contatos.get(0).pegaAtributo("nome"));
 		verify(emktCoreMock);
 	}
 
 	@Test
-	public void retornaContatosValidosNumeroDaPaginaMenorOuIgualAZero() throws Exception {
+	public void retornaContatosValidosNumeroDaPaginaMenorOuIgualAZero()
+			throws Exception {
 		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn("");
 		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn("");
 		replay(emktCoreMock);
@@ -64,23 +68,24 @@ public class RepositorioContatosTest {
 	public void retornaContatosValidosRecebeDadosEmBranco() throws Exception {
 		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn("");
 		replay(emktCoreMock);
-		List<Contatos> contatos =rc.pegaContatos(1, "validos");
+		List<Contatos> contatos = rc.pegaContatos(1, "validos");
 		assertTrue(contatos.isEmpty());
 		verify(emktCoreMock);
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void retornaContatosValidosRecebeDadosNulo() throws Exception {
 		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn(null);
 		replay(emktCoreMock);
-		List<Contatos> contatos =rc.pegaContatos(1, "validos");
+		List<Contatos> contatos = rc.pegaContatos(1, "validos");
 		assertTrue(contatos.isEmpty());
 		verify(emktCoreMock);
 	}
 
-	@Test(expected=Error.class)
+	@Test(expected = Error.class)
 	public void retornaContatosValidosErroAoFazerOParse() throws Exception {
-		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn("String inválida.");
+		expect(emktCoreMock.enviaRequisicao(urlExpected)).andReturn(
+				"String inválida.");
 		replay(emktCoreMock);
 		rc.pegaContatos(1, "validos");
 		verify(emktCoreMock);
