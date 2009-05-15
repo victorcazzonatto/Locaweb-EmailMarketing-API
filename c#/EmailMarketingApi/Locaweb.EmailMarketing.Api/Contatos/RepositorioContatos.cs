@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Net;
 
 namespace Locaweb.EmailMarketing.Api.Contatos
-{    
+{
     public class RepositorioContatos
     {
         /// <summary>
@@ -53,7 +53,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         {
             return this.getPorStatus(pagina, "validos");
         }
-                
+
         public List<Contato> getInvalidos(int pagina)
         {
             return this.getPorStatus(pagina, "invalidos");
@@ -89,35 +89,12 @@ namespace Locaweb.EmailMarketing.Api.Contatos
                                        this.chave,
                                        pagina);
 
-            try
-            {
-                string json = HttpClient.GET(urlApi);
-                return EmktCore.convertJsonToObject<Contato>(json);
-            }
-            catch (WebException e)
-            {
-                if (e.Response == null)
-                {
-                    Console.WriteLine("Ocorreu algum problema ao pegar a mensagem de erro");
-                }
 
-                using (WebResponse response = e.Response)
-                {
-                    HttpWebResponse httpResponse = (HttpWebResponse)response;
+            string json = EmktCore.GET(urlApi);
+            return EmktCore.convertJsonToObject(json);
 
-                    if (httpResponse.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        return new List<Contato>();
-                    }
-                    else
-                    {
-                        throw e;
-                    }
-                }
-            }
-            
         }
-        
+
         #endregion
     }
 }

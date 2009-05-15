@@ -15,6 +15,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
+using Locaweb.EmailMarketing.Api.Contatos;
 
 
 namespace Locaweb.EmailMarketing.Api
@@ -37,17 +38,15 @@ namespace Locaweb.EmailMarketing.Api
             return sResp;
         }
 
-        public static List<T> convertJsonToObject(string strJson)
+        public static List<Contato> convertJsonToObject(string strJson)
         {
-            return null;
-            /*
-            List<T> lcontatos = new List<T>();
+            List<Contato> lcontatos = new List<Contato>();
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            lcontatos = serializer.Deserialize<List<T>>(strJson);
+            lcontatos = serializer.Deserialize<List<Contato>>(strJson);
 
             return lcontatos;
-             */
+           
         }
 
     }
