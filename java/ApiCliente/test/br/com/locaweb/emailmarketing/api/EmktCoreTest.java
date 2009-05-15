@@ -39,7 +39,7 @@ public class EmktCoreTest {
 
 	@Test(expected=EmktApiException.class)
 	public void enviaRequisicaoValorDeRetornoDiferenteDe200() throws Exception {
-		expect(clienteHttpMock.executeMethod(metodoMock)).andReturn(404);
+		expect(clienteHttpMock.executeMethod(metodoMock)).andReturn(500);
 		expect(metodoMock.getResponseBody()).andReturn("".getBytes());
 		metodoMock.releaseConnection();
 		replay(clienteHttpMock);

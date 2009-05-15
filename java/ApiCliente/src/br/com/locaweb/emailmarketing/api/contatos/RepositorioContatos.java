@@ -41,7 +41,7 @@ public class RepositorioContatos {
 		this(hostName, login, chave, new EmktCore());
 	}
 
-	protected RepositorioContatos(String hostName, String login, String chave,
+	RepositorioContatos(String hostName, String login, String chave,
 			EmktCore emktCore) {
 		this.hostName = hostName;
 		this.login = login;
@@ -60,7 +60,7 @@ public class RepositorioContatos {
 	 *
 	 * @throws EmktApiException
 	 */
-	public List<Contatos> pegaContatosValidos(int pagina)
+	public List<Contatos> obterValidos(int pagina)
 			throws EmktApiException {
 
 		return pegaContatos(pagina, "validos");
@@ -77,7 +77,7 @@ public class RepositorioContatos {
 	 *
 	 * @throws EmktApiException
 	 */
-	public List<Contatos> pegaContatosInvalidos(int pagina)
+	public List<Contatos> obterInvalidos(int pagina)
 			throws EmktApiException {
 
 		return pegaContatos(pagina, "invalidos");
@@ -94,7 +94,7 @@ public class RepositorioContatos {
 	 *
 	 * @throws EmktApiException
 	 */
-	public List<Contatos> pegaContatosDescadastrados(int pagina)
+	public List<Contatos> obterDescadastrados(int pagina)
 			throws EmktApiException {
 
 		return pegaContatos(pagina, "Descadastrados");
@@ -111,13 +111,13 @@ public class RepositorioContatos {
 	 *
 	 * @throws EmktApiException
 	 */
-	public List<Contatos> pegaContatosNaoConfirmados(int pagina)
+	public List<Contatos> obterNaoConfirmados(int pagina)
 			throws EmktApiException {
 
 		return pegaContatos(pagina, "nao_confirmados");
 	}
 
-	protected List<Contatos> pegaContatos(int pagina, String status)
+	List<Contatos> pegaContatos(int pagina, String status)
 			throws EmktApiException {
 		if (pagina <= 0) {
 			pagina = 1;

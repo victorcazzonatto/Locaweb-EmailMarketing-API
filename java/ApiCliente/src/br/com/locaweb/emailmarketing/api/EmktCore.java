@@ -14,7 +14,7 @@ public class EmktCore {
 		return enviaRequisicao(new HttpClient(), new GetMethod(url));
 	}
 
-	public String enviaRequisicao(HttpClient clienteHttp, GetMethod metodo)
+	String enviaRequisicao(HttpClient clienteHttp, GetMethod metodo)
 			throws EmktApiException {
 		try {
 			int statusCode = clienteHttp.executeMethod(metodo);

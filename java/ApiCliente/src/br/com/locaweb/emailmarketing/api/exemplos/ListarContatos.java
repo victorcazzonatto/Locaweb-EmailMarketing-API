@@ -14,13 +14,13 @@ public class ListarContatos {
 		RepositorioContatos rc = new RepositorioContatos(hostName, login, chaveApi);
 
 		int i = 1;
-		List<Contatos> resultado = rc.pegaContatosValidos(i++);
+		List<Contatos> resultado = rc.obterValidos(i++);
 		while(!resultado.isEmpty()) {
 			for (Contatos contato : resultado) {
 				System.out.println("Email: " + contato.pegaEmail());
 				System.out.println("Nome: " + contato.pegaAtributo("nome"));
 			}
-			resultado = rc.pegaContatosValidos(i++);
+			resultado = rc.obterValidos(i++);
 		}
 	}
 }
