@@ -54,10 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\Contato.cs" />
-    <Compile Include="AppCode\EmailMkt.cs" />
-    <Compile Include="AppCode\HttpClient.cs" />
-    <Compile Include="Exemplo.cs" />
+    <Compile Include="Locaweb.EmailMarketing.Api\Contatos\Contato.cs" />
+    <Compile Include="Locaweb.EmailMarketing.Api\Contatos\RepositorioContatos.cs" />
+    <Compile Include="Locaweb.EmailMarketing.Api\EmktCore.cs" />
+    <Compile Include="Locaweb.EmailMarketing.Api\Exemplos\ListarContatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

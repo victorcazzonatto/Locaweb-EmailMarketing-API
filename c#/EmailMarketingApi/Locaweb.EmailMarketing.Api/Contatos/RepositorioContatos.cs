@@ -9,13 +9,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
-using Locaweb.Net;
 using System.Net;
 
-namespace Locaweb.EmailMarketingApi
+namespace Locaweb.EmailMarketing.Api.Contatos
 {    
-    public class EmailMkt
+    public class RepositorioContatos
     {
         /// <summary>
         /// Nome do servidor
@@ -28,15 +26,16 @@ namespace Locaweb.EmailMarketingApi
         /// <summary>
         /// Chave gerada para uso dessa API
         /// </summary>
-        private string chaveApi;
+        private string chave;
 
-        private const string HOSTNAME_SUFIX = "locaweb.com.br";        
+        //private const string HOSTNAME_SUFIX = "locaweb.com.br";
+        private const string HOSTNAME_SUFIX = "tecnologia.ws";
 
-        public EmailMkt(string hostname, string login, string chaveApi)
+        public RepositorioContatos(string hostname, string login, string chave)
         {
             this.hostname = hostname;
             this.login = login;
-            this.chaveApi = chaveApi;
+            this.chave = chave;
         }
 
         #region metodos publicos
@@ -50,24 +49,24 @@ namespace Locaweb.EmailMarketingApi
          * o parâmetro pagina=1 (que devolverá os contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de 25000 a 40000) 
          */
 
-        public List<Contato> retornaContatosValidos(int pagina)
+        public List<Contato> getValidos(int pagina)
         {
-            return this.retornaContatosPorStatus(pagina, "validos");
+            return this.getPorStatus(pagina, "validos");
         }
                 
-        public List<Contato> retornaContatosInvalidos(int pagina)
+        public List<Contato> getInvalidos(int pagina)
         {
-            return this.retornaContatosPorStatus(pagina, "invalidos");
+            return this.getPorStatus(pagina, "invalidos");
         }
 
-        public List<Contato> retornaContatosNaoConfirmados(int pagina)
+        public List<Contato> getNaoConfirmados(int pagina)
         {
-            return this.retornaContatosPorStatus(pagina, "nao_confirmados");
+            return this.getPorStatus(pagina, "nao_confirmados");
         }
 
-        public List<Contato> retornaContatosDescadastrados(int pagina)
+        public List<Contato> getDescadastrados(int pagina)
         {
-            return this.retornaContatosPorStatus(pagina, "descadastrados");
+            return this.getPorStatus(pagina, "descadastrados");
         }
         #endregion
 
@@ -80,22 +79,20 @@ namespace Locaweb.EmailMarketingApi
         /// </summary>
         /// <param name="pagina">Número da página</param>
         /// <returns></returns>
-        private List<Contato> retornaContatosPorStatus(int pagina, string status)
+        private List<Contato> getPorStatus(int pagina, string status)
         {
-            List<Contato> lcontatos = new List<Contato>();
-
-            string urlApi = string.Format("http://{0}.{1}/admin/api/{2}/contacts/{3}?chave_api={4}&pagina={5}",
+            string urlApi = string.Format("http://{0}.{1}/admin/api/{2}/contacts/{3}?chave={4}&pagina={5}",
                                        this.hostname,
                                        HOSTNAME_SUFIX,
                                        this.login,
                                        status,
-                                       this.chaveApi,
+                                       this.chave,
                                        pagina);
 
-            string json = "";
             try
             {
-                json = HttpClient.GET(urlApi);
+                string json = HttpClient.GET(urlApi);
+                return EmktCore.convertJsonToObject<Contato>(json);
             }
             catch (WebException e)
             {
@@ -110,7 +107,7 @@ namespace Locaweb.EmailMarketingApi
 
                     if (httpResponse.StatusCode == HttpStatusCode.NotFound)
                     {
-                        return lcontatos;
+                        return new List<Contato>();
                     }
                     else
                     {
@@ -119,12 +116,8 @@ namespace Locaweb.EmailMarketingApi
                 }
             }
             
-            JavaScriptSerializer serializer = new JavaScriptSerializer();            
-            lcontatos = serializer.Deserialize<List<Contato>>(json);
-
-            return lcontatos;
         }
-
+        
         #endregion
     }
 }

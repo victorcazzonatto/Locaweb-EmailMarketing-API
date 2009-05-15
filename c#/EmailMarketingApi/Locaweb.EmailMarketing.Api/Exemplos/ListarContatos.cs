@@ -9,13 +9,13 @@
  */
 using System;
 using System.Collections.Generic;
-using Locaweb.EmailMarketingApi;
+using Locaweb.EmailMarketing.Api.Contatos;
 using System.Net;
 using System.IO;
 
-namespace Locaweb.EmailMarketingApi
+namespace Locaweb.EmailMarketing.Api.Exemplos
 {
-    class Exemplo
+    class ListarContatos
     {
         static void Main(string[] args)
         {
@@ -23,23 +23,23 @@ namespace Locaweb.EmailMarketingApi
             const string LOGIN = "gustavo";
             const string CHAVE_API = "e538ea19267cfdb98f423209419ff77c";
 
-            EmailMkt emailmkt = new EmailMkt(HOSTNAME, LOGIN, CHAVE_API);
+            RepositorioContatos contatoApi = new RepositorioContatos(HOSTNAME, LOGIN, CHAVE_API);
 
             try
-            {                                
+            {
                 List<Contato> contatos;
 
-                for (int pagina = 1; (contatos = emailmkt.retornaContatosValidos(pagina)).Count > 0; pagina++)
+                for (int pagina = 1; (contatos = contatoApi.getValidos(pagina)).Count > 0; pagina++)
                 {
                     Console.WriteLine("pagina " + pagina);
 
                     foreach (Contato c in contatos)
                     {
-                        Console.WriteLine(string.Format("nome:{0}, email:{1}, dataNasc:{2}, estado:{3}", 
+                        Console.WriteLine(string.Format("nome:{0}, email:{1}, dataNasc:{2}, estado:{3}",
                             c.nome, c.email, c.dataDeNascimento, c.estado));
                     }
                 }
-                                
+
             }
             catch (WebException e)
             {
@@ -52,7 +52,7 @@ namespace Locaweb.EmailMarketingApi
                 using (WebResponse response = e.Response)
                 {
                     HttpWebResponse httpResponse = (HttpWebResponse)response;
-                    
+
                     if (httpResponse.StatusCode == HttpStatusCode.InternalServerError)
                     {
                         Console.WriteLine("Erro interno na chamada da API: " + e.Message);
@@ -75,3 +75,4 @@ namespace Locaweb.EmailMarketingApi
         }
     }
 }
+

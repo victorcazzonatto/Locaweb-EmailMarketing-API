@@ -14,11 +14,12 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.ServiceModel.Web;
+using System.Web.Script.Serialization;
 
 
-namespace Locaweb.Net
+namespace Locaweb.EmailMarketing.Api
 {
-    public class HttpClient
+    public class EmktCore
     {
 
         public static string GET(string url)
@@ -34,6 +35,19 @@ namespace Locaweb.Net
             sr.Close();
 
             return sResp;
+        }
+
+        public static List<T> convertJsonToObject(string strJson)
+        {
+            return null;
+            /*
+            List<T> lcontatos = new List<T>();
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            lcontatos = serializer.Deserialize<List<T>>(strJson);
+
+            return lcontatos;
+             */
         }
 
     }
