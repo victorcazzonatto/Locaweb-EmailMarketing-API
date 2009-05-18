@@ -1,0 +1,13 @@
+require 'RepositorioContatos'
+
+login = 'gustavo'
+chave_api = 'e538ea19267cfdb98f423209419ff77c'
+emkt = RepositorioContatos.new('', login,  chave_api );
+pagina = 1
+while(contatos = emkt.pegaContatosValidos(pagina))
+  contatos.each{ |contato|
+    puts contato['email']
+    puts contato['nome']
+  }
+  pagina+= pagina  
+end
