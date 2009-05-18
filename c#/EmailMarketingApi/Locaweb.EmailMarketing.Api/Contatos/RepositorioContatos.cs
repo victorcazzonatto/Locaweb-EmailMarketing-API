@@ -91,6 +91,9 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         /// <returns></returns>
         private List<Contato> obterPorStatus(int pagina, string status)
         {
+            //nao deixa pagina negativa
+            pagina = (pagina <= 0) ? 1 : pagina;
+
             string urlApi = string.Format("http://{0}.{1}/admin/api/{2}/contacts/{3}?chave={4}&pagina={5}",
                                        this.hostname,
                                        HOSTNAME_SUFIX,

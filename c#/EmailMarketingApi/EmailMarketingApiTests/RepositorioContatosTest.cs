@@ -95,22 +95,16 @@ namespace Locaweb.EmailMarketing.Api.Contatos
             this.mock.VerifyAllExpectationsHaveBeenMet();         
         }
 
+        /// <summary>
+        /// Este teste só valida se a url do WS é gerada corretamente para o caso de passar uma página negativa como parâmetro
+        /// </summary>
         [TestMethod()]
         public void getValidosTestSePaginaInvalida()
         {
-            string url =  "http://teste.locaweb.com.br/admin/api/gustavo/contacts/validos?chave=oifoidsf089ds7&pagina=-1";
-            Expect.Once.On(this.mockEmktCore).Method("GET").With(url).Will(Throw.Exception(new EmktApiException("erro")));
-            try
-            {
-                this.repContatos.obterValidos(-1);
-                Assert.Fail();
-            }
-            catch (EmktApiException)
-            {
-                Assert.IsTrue(true);
-            }
-            this.mock.VerifyAllExpectationsHaveBeenMet();
-            
+            string url =  "http://teste.locaweb.com.br/admin/api/gustavo/contacts/validos?chave=oifoidsf089ds7&pagina=1";
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(url).Will(Return.Value(""));
+            this.repContatos.obterValidos(-1);
+            this.mock.VerifyAllExpectationsHaveBeenMet();            
         }
 
         [TestMethod()]
