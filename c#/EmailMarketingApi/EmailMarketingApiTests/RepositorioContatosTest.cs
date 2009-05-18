@@ -1,8 +1,12 @@
 ﻿using Locaweb.EmailMarketing.Api.Contatos;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using NMock2;
+using System;
+using System.Net;
+using Locaweb.EmailMarketing.Api;
 
-namespace EmailMarketingApiTests
+namespace Locaweb.EmailMarketing.Api.Contatos
 {
     
     
@@ -12,8 +16,23 @@ namespace EmailMarketingApiTests
     ///</summary>
     [TestClass()]
     public class RepositorioContatosTest
-    {
+    {                
+        private RepositorioContatos repContatos;
+        private string urlApi;
+        private IEmktCore mockEmktCore;
+        private Mockery mock;
+        public RepositorioContatosTest()
+        {            
+            this.urlApi = "http://teste.locaweb.com.br/admin/api/gustavo/contacts/validos?chave=oifoidsf089ds7&pagina=1";
+            string login = "gustavo";
+            string chave = "oifoidsf089ds7";
+            string hostname = "teste";
 
+            this.mock = new Mockery();
+            this.mockEmktCore = (IEmktCore)mock.NewMock<IEmktCore>();
+
+            this.repContatos = new RepositorioContatos(hostname, login, chave, mockEmktCore);
+        }
 
         private TestContext testContextInstance;
 
@@ -62,24 +81,23 @@ namespace EmailMarketingApiTests
         //}
         //
         #endregion
-
-
-        /// <summary>
-        ///A test for getValidos
-        ///</summary>
+                        
         [TestMethod()]
-        public void getValidosTest()
+        public void getValidosTestSeUrlOk()
         {
-            string hostname = string.Empty; // TODO: Initialize to an appropriate value
-            string login = string.Empty; // TODO: Initialize to an appropriate value
-            string chave = string.Empty; // TODO: Initialize to an appropriate value
-            RepositorioContatos target = new RepositorioContatos(hostname, login, chave); // TODO: Initialize to an appropriate value
-            int pagina = 0; // TODO: Initialize to an appropriate value
-            List<Contato> expected = null; // TODO: Initialize to an appropriate value
-            List<Contato> actual;
-            actual = target.getValidos(pagina);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value(""));
+            this.repContatos.obterValidos(1);
+            this.mock.VerifyAllExpectationsHaveBeenMet();         
+        }
+
+        [TestMethod()]
+        public void getValidosTestSePaginaInvalida()
+        {
+
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value(""));            
+            this.repContatos.obterValidos(-1);            
+            this.mock.VerifyAllExpectationsHaveBeenMet();
         }
     }
 }

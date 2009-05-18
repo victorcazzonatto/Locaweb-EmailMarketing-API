@@ -15,15 +15,18 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.ServiceModel.Web;
 using System.Web.Script.Serialization;
-using Locaweb.EmailMarketing.Api.Contatos;
-
 
 namespace Locaweb.EmailMarketing.Api
 {
-    public class EmktCore
+    public interface IEmktCore
+    {
+        string GET(string url);        
+    }
+
+    public class EmktCore : IEmktCore
     {
 
-        public static string GET(string url)
+        public string GET(string url)
         {
             System.Net.HttpWebRequest oWebReq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
 
@@ -38,12 +41,12 @@ namespace Locaweb.EmailMarketing.Api
             return sResp;
         }
 
-        public static List<Contato> convertJsonToObject(string strJson)
+        public static List<T> converteJsonParaObjeto<T>(string strJson)
         {
-            List<Contato> lcontatos = new List<Contato>();
+            List<T> lcontatos = new List<T>();
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            lcontatos = serializer.Deserialize<List<Contato>>(strJson);
+            lcontatos = serializer.Deserialize<List<T>>(strJson);
 
             return lcontatos;
            

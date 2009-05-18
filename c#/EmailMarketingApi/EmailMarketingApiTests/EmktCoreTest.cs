@@ -64,19 +64,19 @@ namespace EmailMarketingApiTests
         //
         #endregion
 
-
-        /// <summary>
-        ///A test for convertJsonToObject
-        ///</summary>
+                
         [TestMethod()]
-        public void convertJsonToObjectTest()
+        public void converteJsonParaObjetoTestOk()
         {
-            string strJson = string.Empty; // TODO: Initialize to an appropriate value
-            List<Contato> expected = null; // TODO: Initialize to an appropriate value
+            string strJson = "[{\"email\":\"xconta4@testecarganl.tecnologia.ws\",\"nome\":\"nomeTeste\"}]";
+            List<Contato> expected = new List<Contato>();
+            expected.Add(new Contato() { email = "xconta4@testecarganl.tecnologia.ws", nome = "nomeTeste" });
+            
             List<Contato> actual;
-            actual = EmktCore.convertJsonToObject(strJson);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            actual = EmktCore.converteJsonParaObjeto<Contato>(strJson);
+            Assert.AreEqual(expected[0].nome, actual[0].nome);
+            Assert.AreEqual(expected[0].email, actual[0].email);            
         }
+
     }
 }

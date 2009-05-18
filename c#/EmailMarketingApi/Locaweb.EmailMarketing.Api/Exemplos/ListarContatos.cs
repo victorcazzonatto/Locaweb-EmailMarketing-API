@@ -29,7 +29,7 @@ namespace Locaweb.EmailMarketing.Api.Exemplos
             {
                 List<Contato> contatos;
 
-                for (int pagina = 1; (contatos = contatoApi.getValidos(pagina)) != null ; pagina++)
+                for (int pagina = 1; (contatos = contatoApi.obterValidos(pagina)) != null ; pagina++)
                 {
                     Console.WriteLine("pagina " + pagina);
 

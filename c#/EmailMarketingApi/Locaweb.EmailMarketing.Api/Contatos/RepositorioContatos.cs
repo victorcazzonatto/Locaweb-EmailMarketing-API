@@ -28,14 +28,24 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         /// </summary>
         private string chave;
 
-        //private const string HOSTNAME_SUFIX = "locaweb.com.br";
-        private const string HOSTNAME_SUFIX = "tecnologia.ws";
+        private const string HOSTNAME_SUFIX = "locaweb.com.br";
+        //private const string HOSTNAME_SUFIX = "tecnologia.ws";
+        private IEmktCore emktCore;
 
         public RepositorioContatos(string hostname, string login, string chave)
         {
             this.hostname = hostname;
             this.login = login;
             this.chave = chave;
+            this.emktCore = new EmktCore();
+        }
+
+        public RepositorioContatos(string hostname, string login, string chave, IEmktCore emktCore)
+        {
+            this.hostname = hostname;
+            this.login = login;
+            this.chave = chave;
+            this.emktCore = emktCore;
         }
 
         #region metodos publicos
@@ -49,24 +59,24 @@ namespace Locaweb.EmailMarketing.Api.Contatos
          * o parâmetro pagina=1 (que devolverá os contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de 25000 a 40000) 
          */
 
-        public List<Contato> getValidos(int pagina)
+        public List<Contato> obterValidos(int pagina)
         {
-            return this.getPorStatus(pagina, "validos");
+            return this.obterPorStatus(pagina, "validos");
         }
 
-        public List<Contato> getInvalidos(int pagina)
+        public List<Contato> obterInvalidos(int pagina)
         {
-            return this.getPorStatus(pagina, "invalidos");
+            return this.obterPorStatus(pagina, "invalidos");
         }
 
-        public List<Contato> getNaoConfirmados(int pagina)
+        public List<Contato> obterNaoConfirmados(int pagina)
         {
-            return this.getPorStatus(pagina, "nao_confirmados");
+            return this.obterPorStatus(pagina, "nao_confirmados");
         }
 
-        public List<Contato> getDescadastrados(int pagina)
+        public List<Contato> obterDescadastrados(int pagina)
         {
-            return this.getPorStatus(pagina, "descadastrados");
+            return this.obterPorStatus(pagina, "descadastrados");
         }
         #endregion
 
@@ -79,7 +89,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         /// </summary>
         /// <param name="pagina">Número da página</param>
         /// <returns></returns>
-        private List<Contato> getPorStatus(int pagina, string status)
+        private List<Contato> obterPorStatus(int pagina, string status)
         {
             string urlApi = string.Format("http://{0}.{1}/admin/api/{2}/contacts/{3}?chave={4}&pagina={5}",
                                        this.hostname,
@@ -90,8 +100,8 @@ namespace Locaweb.EmailMarketing.Api.Contatos
                                        pagina);
 
 
-            string json = EmktCore.GET(urlApi);
-            return EmktCore.convertJsonToObject(json);
+            string json = this.emktCore.GET(urlApi);
+            return EmktCore.converteJsonParaObjeto<Contato>(json);
 
         }
 
