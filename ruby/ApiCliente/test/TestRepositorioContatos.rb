@@ -40,8 +40,8 @@ class TestRepositorioContatos < Test::Unit::TestCase
   end
   
   def test_obter_contatos_lanca_uma_expetion_de_rede_ou_http
-    EmktCore.expects(:envia_requisicao).with(@url).exception_raiser(raise("Qualquer exception"))
-    assert_raise(RuntimeError) {@repositorio.obter_contatos(1, 'teste')}
+    EmktCore.expects(:envia_requisicao).with(@url).raises(Exception)
+    assert_raise(Exception) {@repositorio.obter_contatos(1, 'teste')}
   end
     
 end
