@@ -1,13 +1,14 @@
-require 'RepositorioContatos'
+require 'ApiCliente/lib/RepositorioContatos'
+require 'ApiCliente/lib/Contato'
 
 login = 'gustavo'
 chave_api = 'e538ea19267cfdb98f423209419ff77c'
-emkt = RepositorioContatos.new('', login,  chave_api );
+repositorio = RepositorioContatos.new('', login,  chave_api );
 pagina = 1
-while(contatos = emkt.pegaContatosValidos(pagina))
+while(contatos = repositorio.obter_validos(pagina))
   contatos.each{ |contato|
-    puts contato['email']
-    puts contato['nome']
+    puts contato.email
+    puts contato.nome
   }
   pagina+= pagina  
 end

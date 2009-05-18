@@ -1,5 +1,6 @@
 require 'json'
 require File.join(File.dirname(__FILE__), 'EmktCore')
+require File.join(File.dirname(__FILE__), 'Contato')
 
  # Copyright (c) 2009, Locaweb LTDA. Todos os direitor reservados.
  #
@@ -37,13 +38,23 @@ class RepositorioContatos
     obter_contatos(pagina,  "nao_confirmados")
   end
   
+ 
   def obter_contatos(pagina, status)
     pagina = 1 unless pagina > 0
-    #url = 	"http://#{@host_name}.locaweb.com.br/admin/api/#{@login}/contatos/#{status}?chave=#{@chave}&pagina=#{pagina}";
-		url = "http://testelmm.tecnologia.ws/admin/api/#{@login}/contatos/#{status}?chave=#{@chave}&pagina=#{pagina}"
+    url = 	"http://#{@host_name}.locaweb.com.br/admin/api/#{@login}/contatos/#{status}?chave=#{@chave}&pagina=#{pagina}";
+		#url = "http://testelmm.tecnologia.ws/admin/api/#{@login}/contatos/#{status}?chave=#{@chave}&pagina=#{pagina}"
     resposta = EmktCore::envia_requisicao(url)
     return nil if resposta == "" 
-    JSON.parse(resposta)
+    resposta = JSON.parse(resposta)
+    json_para_contatos(resposta)
+  end
+  
+  def json_para_contatos(json_array)
+    @contatos=[]
+    json_array.each{ |json_has| 
+      @contatos << Contato.new(json_has)
+    }
+    @contatos
   end
   
 end

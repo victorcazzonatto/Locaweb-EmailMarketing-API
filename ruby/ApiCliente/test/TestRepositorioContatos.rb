@@ -27,10 +27,14 @@ class TestRepositorioContatos < Test::Unit::TestCase
     assert_nil @repositorio.obter_contatos(1, 'teste')
   end
   
-  def test_obter_contatos_pase_valido
-    resultado_ws = '[{"email":"xconta4@testecarganl.tecnologia.ws","nome":"","htmlemail":"1","sobrenome":"","datadenascimento":"","sexo":"","empresa":"","departamento":"","cargo":"","endereco":"","numero":"","complemento":"","bairro":"","cidade":"","estado":"ES","cep":"","telefoneresidencial":"","telefonecomercial":"","telefonecelular":"","fax":"","anotacoes":"","campo1":"","campo2":"","campo3":""}]'
+  def test_obter_contatos_deve_retornar_um_objeto_contato_valido
+    resultado_ws = '[{"email":"xconta4@testecarganl.tecnologia.ws","nome":"nome1","htmlemail":"1"}]'
     EmktCore.expects(:envia_requisicao).with(@url).returns(resultado_ws)
-    assert_not_nil @repositorio.obter_contatos(1, 'teste')
+    contatos =  @repositorio.obter_contatos(1, 'teste')
+    assert_equal 1, contatos.size
+    assert_equal 'xconta4@testecarganl.tecnologia.ws', contatos[0].email
+    assert_equal 'nome1', contatos[0].nome
+    assert_equal '1',contatos[0].htmlemail
   end
   
   def test_obter_contatos_Json_parserError_esperada
