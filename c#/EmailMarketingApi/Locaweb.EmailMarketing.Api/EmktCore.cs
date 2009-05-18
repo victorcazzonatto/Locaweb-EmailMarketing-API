@@ -28,17 +28,43 @@ namespace Locaweb.EmailMarketing.Api
 
         public string GET(string url)
         {
-            System.Net.HttpWebRequest oWebReq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+            try
+            {
+                System.Net.HttpWebRequest oWebReq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
 
-            oWebReq.CookieContainer = new System.Net.CookieContainer();
+                oWebReq.CookieContainer = new System.Net.CookieContainer();
 
-            System.Net.HttpWebResponse oResp = (System.Net.HttpWebResponse)oWebReq.GetResponse();
+                System.Net.HttpWebResponse oResp = (System.Net.HttpWebResponse)oWebReq.GetResponse();
 
-            StreamReader sr = new StreamReader(oResp.GetResponseStream());
-            string sResp = sr.ReadToEnd();
-            sr.Close();
+                StreamReader sr = new StreamReader(oResp.GetResponseStream());
+                string sResp = sr.ReadToEnd();
+                sr.Close();
 
-            return sResp;
+                return sResp;
+            }
+            catch (WebException e)
+            {
+                #region tratamento da exceção
+                if (e.Response == null)
+                {
+                    throw e;                    
+                }
+                                
+                using (WebResponse response = e.Response)
+                {
+                    HttpWebResponse httpResponse = (HttpWebResponse)response;
+
+                    StreamReader sr = new StreamReader(httpResponse.GetResponseStream());
+                    string message = sr.ReadToEnd();
+                    sr.Close();
+
+                    throw new EmktApiException(string.Format("Chama HTTP retornou código: {0}, mensagem: {1}: ",
+                            Convert.ToInt32(httpResponse.StatusCode),
+                            message));
+                }
+                #endregion
+            }
+            
         }
 
         public static List<T> converteJsonParaObjeto<T>(string strJson)

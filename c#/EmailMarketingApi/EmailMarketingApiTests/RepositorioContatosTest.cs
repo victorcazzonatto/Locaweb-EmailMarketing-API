@@ -86,17 +86,41 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         public void getValidosTestSeUrlOk()
         {
 
-            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value(""));
-            this.repContatos.obterValidos(1);
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value("[{\"email\":\"xconta4@testecarganl.tecnologia.ws\",\"nome\":\"nomeTeste\"},{\"email\":\"xconta5@testecarganl.tecnologia.ws\",\"nome\":\"nomeTeste2\"}]"));
+            List<Contato> contatos = this.repContatos.obterValidos(1);
+            Assert.AreEqual(contatos[0].email, "xconta4@testecarganl.tecnologia.ws");
+            Assert.AreEqual(contatos[0].nome, "nomeTeste");
+            Assert.AreEqual(contatos[1].email, "xconta5@testecarganl.tecnologia.ws");
+            Assert.AreEqual(contatos[1].nome, "nomeTeste2");
             this.mock.VerifyAllExpectationsHaveBeenMet();         
         }
 
         [TestMethod()]
         public void getValidosTestSePaginaInvalida()
         {
+            string url =  "http://teste.locaweb.com.br/admin/api/gustavo/contacts/validos?chave=oifoidsf089ds7&pagina=-1";
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(url).Will(Throw.Exception(new EmktApiException("erro")));
+            try
+            {
+                this.repContatos.obterValidos(-1);
+                Assert.Fail();
+            }
+            catch (EmktApiException)
+            {
+                Assert.IsTrue(true);
+            }
+            this.mock.VerifyAllExpectationsHaveBeenMet();
+            
+        }
 
-            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value(""));            
-            this.repContatos.obterValidos(-1);            
+        [TestMethod()]
+        public void getValidosTestSeRetornaVazio()
+        {            
+            Expect.Once.On(this.mockEmktCore).Method("GET").With(urlApi).Will(Return.Value(""));
+            
+            List<Contato> contatos = this.repContatos.obterValidos(1);
+            Assert.IsNull(contatos);
+
             this.mock.VerifyAllExpectationsHaveBeenMet();
         }
     }

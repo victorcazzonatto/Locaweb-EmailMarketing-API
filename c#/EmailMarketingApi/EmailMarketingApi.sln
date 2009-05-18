@@ -7,8 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailMarketingApiTests", "E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3016E73-BDC0-4E2F-A80A-2D479E7BDD4D}"
 	ProjectSection(SolutionItems) = preProject
-		EmailMarketingApi.vsmdi = EmailMarketingApi.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		emailmarketingapi.vsmdi = emailmarketingapi.vsmdi
+		localtestrun.testrunconfig = localtestrun.testrunconfig
 	EndProjectSection
 EndProject
 Global

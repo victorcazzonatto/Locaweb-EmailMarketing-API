@@ -41,36 +41,13 @@ namespace Locaweb.EmailMarketing.Api.Exemplos
                 }
 
             }
-            catch (WebException e)
+            catch (EmktApiException e)
             {
-                #region tratamento da exceção
-                if (e.Response == null)
-                {
-                    Console.WriteLine("Ocorreu algum problema ao pegar a mensagem de erro");
-                }
-
-                using (WebResponse response = e.Response)
-                {
-                    HttpWebResponse httpResponse = (HttpWebResponse)response;
-
-                    if (httpResponse.StatusCode == HttpStatusCode.InternalServerError)
-                    {
-                        Console.WriteLine("Erro interno na chamada da API: " + e.Message);
-                    }
-                    else if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        Console.WriteLine("Falha na autenticação na chamada da API: " + e.Message);
-                    }
-                    else if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        Console.WriteLine("Parametros inválidos na chamada da API: " + e.Message);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Erro nao indentificado na chamada da API: " + e.Message);
-                    }
-                }
-                #endregion
+                Console.WriteLine("Erro na chamada da API: " + e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ocorreu um erro inesperado: " + e.Message);
             }
         }
     }
