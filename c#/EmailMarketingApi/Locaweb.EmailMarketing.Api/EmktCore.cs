@@ -72,6 +72,8 @@ namespace Locaweb.EmailMarketing.Api
             List<T> lcontatos = new List<T>();
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = 10485760; //10MB caracteres          
+            Console.WriteLine(strJson.Length);
             lcontatos = serializer.Deserialize<List<T>>(strJson);
 
             return lcontatos;

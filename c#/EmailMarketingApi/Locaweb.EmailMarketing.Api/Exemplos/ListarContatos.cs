@@ -19,11 +19,15 @@ namespace Locaweb.EmailMarketing.Api.Exemplos
     {
         static void Main(string[] args)
         {
-            const string HOSTNAME = "";
-            const string LOGIN = "";
-            const string CHAVE_API = "";
+            //para saber quais valores utilizar, consulte a página de configurações do Email Marketing
+            //mais informações em http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
 
-            RepositorioContatos contatoApi = new RepositorioContatos(HOSTNAME, LOGIN, CHAVE_API);
+            const string HOSTNAME       = "";
+            const string LOGIN          = "";
+            const string CHAVE_API      = "";
+            const string HOSTNAME_SUFIX = "locaweb.com.br";            
+
+            RepositorioContatos contatoApi = new RepositorioContatos(HOSTNAME, LOGIN, CHAVE_API, HOSTNAME_SUFIX);
 
             try
             {
@@ -32,13 +36,14 @@ namespace Locaweb.EmailMarketing.Api.Exemplos
                 for (int pagina = 1; (contatos = contatoApi.obterValidos(pagina)) != null ; pagina++)
                 {
                     Console.WriteLine("pagina " + pagina);
-
+                    
                     foreach (Contato c in contatos)
                     {
                         Console.WriteLine(string.Format("nome:{0}, email:{1}, dataNasc:{2}, estado:{3}",
                             c.nome, c.email, c.dataDeNascimento, c.estado));
                     }
                 }
+                Console.WriteLine(System.GC.GetTotalMemory(true).ToString());
 
             }
             catch (EmktApiException e)

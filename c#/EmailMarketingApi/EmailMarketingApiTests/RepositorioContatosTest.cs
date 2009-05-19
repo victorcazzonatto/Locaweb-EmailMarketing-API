@@ -27,11 +27,12 @@ namespace Locaweb.EmailMarketing.Api.Contatos
             string login = "gustavo";
             string chave = "oifoidsf089ds7";
             string hostname = "teste";
+            string hostnameSufix = "locaweb.com.br";
 
             this.mock = new Mockery();
             this.mockEmktCore = (IEmktCore)mock.NewMock<IEmktCore>();
 
-            this.repContatos = new RepositorioContatos(hostname, login, chave, mockEmktCore);
+            this.repContatos = new RepositorioContatos(hostname, login, chave, hostnameSufix, mockEmktCore);
         }
 
         private TestContext testContextInstance;

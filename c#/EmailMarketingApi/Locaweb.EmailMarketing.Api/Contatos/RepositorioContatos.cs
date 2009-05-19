@@ -28,22 +28,25 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         /// </summary>
         private string chave;
 
-        private const string HOSTNAME_SUFIX = "locaweb.com.br";        
+        private string hostnameSufix;
+                
         private IEmktCore emktCore;
 
-        public RepositorioContatos(string hostname, string login, string chave)
+        public RepositorioContatos(string hostname, string login, string chave, string hostnameSufix)
         {
             this.hostname = hostname;
             this.login = login;
             this.chave = chave;
+            this.hostnameSufix = hostnameSufix;
             this.emktCore = new EmktCore();
         }
 
-        public RepositorioContatos(string hostname, string login, string chave, IEmktCore emktCore)
+        public RepositorioContatos(string hostname, string login, string chave, string hostnameSufix, IEmktCore emktCore)
         {
             this.hostname = hostname;
             this.login = login;
             this.chave = chave;
+            this.hostnameSufix = hostnameSufix;
             this.emktCore = emktCore;
         }
 
@@ -53,9 +56,9 @@ namespace Locaweb.EmailMarketing.Api.Contatos
 
         /*
          * Os métodos de listagem possuem o parâmetro pagina. Ele informa qual página da pesquisa deve ser retornada.
-         * Atualmente o limite de contatos por página é de 25mil contatos por página.
-         * Por isso, caso tenha 40mil contatos em sua base por exemplo, precisará fazer 2 chamadas passando 
-         * o parâmetro pagina=1 (que devolverá os contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de 25000 a 40000) 
+         * Atualmente o limite de contatos por página é de 10mil contatos por página.
+         * Por isso, caso tenha 15mil contatos em sua base por exemplo, precisará fazer 2 chamadas passando o parâmetro 
+         * pagina=1 (que devolverá os contatos de 1 a 10000) e em seguida pagina=2 (que devolverá os contatos de 10001 a 15000)
          */
 
         public List<Contato> obterValidos(int pagina)
@@ -84,7 +87,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         #region metodos privados
 
         /// <summary>
-        /// Retorna todos os contatos. Se o número de contatos forsuperior a xxxx contatos, os contatos são quebrados em páginas de xxxx elementos.	 
+        /// Retorna todos os contatos.         
         /// </summary>
         /// <param name="pagina">Número da página</param>
         /// <returns></returns>
@@ -95,7 +98,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
 
             string urlApi = string.Format("http://{0}.{1}/admin/api/{2}/contacts/{3}?chave={4}&pagina={5}",
                                        this.hostname,
-                                       HOSTNAME_SUFIX,
+                                       this.hostnameSufix,
                                        this.login,
                                        status,
                                        this.chave,
