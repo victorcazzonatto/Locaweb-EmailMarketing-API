@@ -28,8 +28,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         /// </summary>
         private string chave;
 
-        private const string HOSTNAME_SUFIX = "locaweb.com.br";
-        //private const string HOSTNAME_SUFIX = "tecnologia.ws";
+        private const string HOSTNAME_SUFIX = "locaweb.com.br";        
         private IEmktCore emktCore;
 
         public RepositorioContatos(string hostname, string login, string chave)

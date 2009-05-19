@@ -19,9 +19,9 @@ namespace Locaweb.EmailMarketing.Api.Exemplos
     {
         static void Main(string[] args)
         {
-            const string HOSTNAME = "testelmm";
-            const string LOGIN = "gustavo";
-            const string CHAVE_API = "e538ea19267cfdb98f423209419ff77c";
+            const string HOSTNAME = "";
+            const string LOGIN = "";
+            const string CHAVE_API = "";
 
             RepositorioContatos contatoApi = new RepositorioContatos(HOSTNAME, LOGIN, CHAVE_API);
 
