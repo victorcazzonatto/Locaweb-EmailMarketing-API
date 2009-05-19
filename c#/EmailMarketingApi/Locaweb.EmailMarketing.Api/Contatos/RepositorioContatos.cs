@@ -4,7 +4,7 @@
  *
  *  Está é uma API exemplo que facilita a utilização dos web services do Email Marketing.
  *
- * versao 1.0
+ * versao 0.1
  * mais detalhes em http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
  */
 using System;
@@ -53,14 +53,7 @@ namespace Locaweb.EmailMarketing.Api.Contatos
         #region metodos publicos
 
         #region metodos de listagem de contatos
-
-        /*
-         * Os métodos de listagem possuem o parâmetro pagina. Ele informa qual página da pesquisa deve ser retornada.
-         * Atualmente o limite de contatos por página é de 10mil contatos por página.
-         * Por isso, caso tenha 15mil contatos em sua base por exemplo, precisará fazer 2 chamadas passando o parâmetro 
-         * pagina=1 (que devolverá os contatos de 1 a 10000) e em seguida pagina=2 (que devolverá os contatos de 10001 a 15000)
-         */
-
+        
         public List<Contato> obterValidos(int pagina)
         {
             return this.obterPorStatus(pagina, "validos");
