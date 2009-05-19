@@ -10,18 +10,18 @@
  */
 
 	error_reporting(E_ALL);
-	require_once dirname(__FILE__).'/EmailMkt.php';
+	require_once dirname(__FILE__).'/RepositorioContatos.php';
 
 	// Esses valores podem ser obtidos na página de configurações do Email Marketing
 	$hostName = '';
 	$login 		= '';
 	$chaveApi = '';
-	$emkt 		= new EmailMkt($hostName, $login, $chaveApi);
+	$repositorio 	= new RepositorioContatos($hostName, $login, $chaveApi);
 
 	print "\ncontatos validos\n";
 
 	try{
-		for($pagina=1; $contatos = $emkt->retornaContatosValidos($pagina); $pagina++) {
+		for($pagina=1; $contatos = $repositorio->obterValidos($pagina); $pagina++) {
 			foreach($contatos as $contato) {
 				//caso necessite de outros campos do contato, utilizar o print_r($contato) para visualizar os campos disponiveis;
 				print "email: {$contato->email}|nome: {$contato->nome}|" .

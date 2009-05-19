@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__).'/EmktCore.php';
+
 /**
  *  Copyright (c) 2009, Locaweb LTDA.
  * 	Todos os direitor reservados.
@@ -8,14 +10,14 @@
  * @version 1.0
  * @see http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
  */
-class EmailMkt {
+class RepositorioContatos {
 
 	private $HOSTNAME_SUFIX='locaweb.com.br';
 
 	/**
 	 * Nome do servidor.
 	 */
-  private $hostName;
+  	private $hostName;
 
 	/**
 	 * Login usado no Email Marketing.
@@ -46,30 +48,26 @@ class EmailMkt {
  *
  */
 
-	public function retornaContatosValidos($pagina='1'){
+	public function obterValidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'validos');
 	}
 
-	public function retornaContatosInvalidos($pagina='1'){
+	public function obterInvalidos($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'invalidos');
 	}
 
-	public function retornaContatosNaoConfirmados($pagina='1'){
+	public function obterNaoConfirmados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'nao_confirmados');
 	}
 
-	public function retornaContatosDescadastrados($pagina='1'){
+	public function obterDescadastrados($pagina='1'){
 		return $this->retornaContatosPorStatus($pagina,'descadastrados');
 	}
 
-
-
 	private function retornaContatosPorStatus($pagina='1', $status) {
-
 		$url = "http://{$this->hostName}.{$this->HOSTNAME_SUFIX}/admin" .
 				"/api/{$this->login}/contatos/{$status}?chave_api={$this->chaveApi}&pagina={$pagina}";
-
-		$resultado = $this->enviaRequisicao($url);
+		$resultado = EmktCore::enviaRequisicao($url);
 		if($resultado==null) {
 			return null;
 		}
@@ -78,36 +76,5 @@ class EmailMkt {
 		return $resultado;
 	}
 
-/************************** Fim do metodos de Listagem de Contatos **************************************************/
-
-	private function enviaRequisicao($url) {
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		$resultado_http = curl_exec($curl);
-		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-
-		if($http_code == '200'){
-			return $resultado_http;
-		}
-		elseif ($http_code == '404') {
-			return null;
-		}
-		elseif ($http_code == '500') {
-			throw new Exception("Erro interno no servidor: $resultado_http");
-		}
-		elseif ($http_code == '401') {
-			throw new Exception("Nao autorizado");
-		}
-		elseif ($http_code == '400') {
-			throw new Exception("Parametros invalidos");
-		}
-		else{
-			throw new Exception("Erro inesperado: statusCode:$http_code, mensagem:$resultado_http");
-			return null;
-		}
-	}
 }
-
 ?>
