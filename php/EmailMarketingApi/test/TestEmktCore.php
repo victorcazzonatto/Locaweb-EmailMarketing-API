@@ -1,16 +1,39 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 require_once dirname(__FILE__).'/../src/EmktCore.php';
+error_reporting(E_ALL);
 
+class TestEmktCore extends PHPUnit_Framework_TestCase {
 
-class TestEmktCore extends UnitTestCase {
+	private $emktCore;
 
-	function testEnviaRequisicaoRequisicaoDeveSerValida() {
-		print "Passou aqui";
-		$url = "http://testelmm.tecnologia.ws/admin/api/gustavo/contatos/validos?chave=e538ea19267cfdb98f423209419ff77c&pagina=1";
-		EmktCore::enviaRequisicao($url);
-		print "Passou aqui 2";
+	public function setUp() {
+		$this->emktCore = new EmktCore();
+	}
+
+	function testValidaCodigoHttpNenhumaExcecaoDeveSerLancada() {
+		$this->emktCore->validaCodigoHttp('200');
 		$this->assertTrue(true);
+	}
+
+	function testValidaCodigoHttpUmaExceptionDeveSerLancadaSeRetornoFor0() {
+		try {
+			$this->emktCore->validaCodigoHttp('0');
+		}catch (Exception $e) {
+			$this->assertTrue(true);
+			return;
+		}
+		$this->fail("Uma Exception deveria ser lancada.");
+	}
+
+	function testValidaCodigoHttpUmaExceptionDeveSerLancadaSeRetornoDiferrenteDe200() {
+		try {
+			$this->emktCore->validaCodigoHttp('400');
+		}catch (Exception $e) {
+			$this->assertTrue(true);
+			return;
+		}
+		$this->fail("Uma Exception deveria ser lancada.");
 	}
 }
 ?>

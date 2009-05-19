@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/EmktCore.php';
  *
  *  Está é uma API exemplo que facilita a utilização dos web services do Email Marketing.
  *
- * @version 1.0
+ * @version 0.1
  * @see http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
  */
 class RepositorioContatos {
@@ -27,18 +27,25 @@ class RepositorioContatos {
 	/**
 	 * Chave gerada para uso dessa API.
 	 */
-	private $chaveApi;
+	private $chave;
+
+	private $emktCore;
+
+	private $hostNameSufix;
 
 	/**
 	 * @param string hostName usado no Email Marketing.
 	 * @param string Login usado no Email Marketing.
 	 * @param string Chave gerada para uso dessa API.
 	 */
-	public function EmailMkt($hostName, $login, $chaveApi) {
+	public function RepositorioContatos($hostName, $login, $chave, $hostNameSufix='tecnologia.ws') {
 		$this->hostName = $hostName;
 		$this->login = $login;
-		$this->chaveApi = $chaveApi;
+		$this->chave = $chave;
+		$this->hostNameSufix = $hostNameSufix;
+		$this->emktCore = new EmktCore();
 	}
+
 
 /************************** Inicio metodos de Listagem de Contatos **************************************************
  * Os métodos de listagem possuem o parâmetro pagina. Ele informa qual página da pesquisa deve ser retornada.
@@ -49,32 +56,39 @@ class RepositorioContatos {
  */
 
 	public function obterValidos($pagina='1'){
-		return $this->retornaContatosPorStatus($pagina,'validos');
+		return $this->obterPorStatus($pagina,'validos');
 	}
 
 	public function obterInvalidos($pagina='1'){
-		return $this->retornaContatosPorStatus($pagina,'invalidos');
+		return $this->obterPorStatus($pagina,'invalidos');
 	}
 
 	public function obterNaoConfirmados($pagina='1'){
-		return $this->retornaContatosPorStatus($pagina,'nao_confirmados');
+		return $this->obterPorStatus($pagina,'nao_confirmados');
 	}
 
 	public function obterDescadastrados($pagina='1'){
-		return $this->retornaContatosPorStatus($pagina,'descadastrados');
+		return $this->obterPorStatus($pagina,'descadastrados');
 	}
 
-	private function retornaContatosPorStatus($pagina='1', $status) {
-		$url = "http://{$this->hostName}.{$this->HOSTNAME_SUFIX}/admin" .
-				"/api/{$this->login}/contatos/{$status}?chave_api={$this->chaveApi}&pagina={$pagina}";
-		$resultado = EmktCore::enviaRequisicao($url);
+	private function obterPorStatus($pagina='1', $status) {
+		$url = "http://{$this->hostName}.{$this->hostNameSufix}/admin" .
+				"/api/{$this->login}/contatos/{$status}?chave={$this->chave}&pagina={$pagina}";
+
+		$resultado = $this->emktCore->enviaRequisicao($url);
 		if($resultado==null) {
 			return null;
 		}
 		$resultado = json_decode($resultado);
+		if($resultado===null) {
+			throw new Exception('Erro ao transformar em JSON.');
+		}
 
 		return $resultado;
 	}
 
+	public function setEmktCore($emktCore) {
+		$this->emktCore = $emktCore;
+	}
 }
 ?>

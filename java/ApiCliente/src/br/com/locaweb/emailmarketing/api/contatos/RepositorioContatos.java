@@ -17,15 +17,10 @@ import br.com.locaweb.emailmarketing.api.EmktCore;
  * Está é uma API exemplo que facilita a utilização do web services de Contatos.
  *
  * Os métodos de listagem possuem o parâmetro página. Ele informa qual página da
- * pesquisa deve ser retornada. Atualmente o limite de contatos por página é de
- * 25mil contatos por página. Exemplo, caso tenha 40mil contatos em sua base
- * precisará fazer 2 chamadas passando o parâmetro pagina=1 (que devolverá os
- * contatos de 1 a 24999) e em seguida pagina=2 (que devolverá os contatos de
- * 25000 a 40000)
+ * pesquisa deve ser retornada. Há um limite de contatos por página, para mais
+ * detalhes consulte a wiki http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
  *
- *
- * @version 0.1
- * @see http://wiki.locaweb.com.br/pt-br/APIs_do_Email_Marketing
+ * version 0.1
  */
 public class RepositorioContatos {
 
